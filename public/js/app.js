@@ -12,22 +12,27 @@ $("#login").click((event) => {
     username = $("#username").val();
     password = $("#password").val();
 
-    fetch('http://localhost:8080/users/'+username, {
+    //TODO: call from node server
+    fetch('http://localhost:8080/users/authenticate', {
         method: 'POST',
         mode: 'cors',
         credentials: 'same-origin',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ password: password})
-    }).then((response) => { 
+        body: JSON.stringify({ username: username, password: password })
+    }).then((response) => {
 
-        if(response.status !== 200) {
+        if (response.status !== 200) {
             return response.json();
-        } 
-        console.log('SUCESS LOGGIN IN...');
+        }
 
-    }).then(({error}) => {
+        response.json().then(json => {
+            console.log(json);
+        });
+        
+        console.log('SUCCESS LOGGIN IN...');
+    }).catch(({ error }) => {
         $("#error").text(error);
         console.log(error);
     });
@@ -40,7 +45,7 @@ $("#create-account").click((event) => {
     email = $("#create-email").val();
     createPassword = $("#create-password").val();
 
-    fetch('http://localhost:8080/users', {
+    fetch('http://localhost:8080/users/create', {
         method: 'POST',
         mode: 'cors',
         credentials: 'same-origin',
@@ -49,10 +54,10 @@ $("#create-account").click((event) => {
         },
         body: JSON.stringify({ username: createUsername, password: createPassword, email: email })
     }).then(function (response) {
-        if(response.status !== 200) {
+        if (response.status !== 200) {
             return response.json();
-        } 
-    }).then(({error}) => {
+        }
+    }).catch(({ error }) => {
         $("#error").text(error);
         console.log(error);
     });

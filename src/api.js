@@ -11,6 +11,7 @@ const createUser = (user, callback) => {
             callback('Unable to create a new account', undefined);
         } else {
             callback(undefined, user);
+            //gotTo userPage if successfull
         }
     });
 }
@@ -23,6 +24,7 @@ const login = (username, password, callback) => {
             callback('Unable to login', undefined);
         } else {
             callback(undefined, user);
+             //gotTo userPage if successfull
         }
     });
 }
